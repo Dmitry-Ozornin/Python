@@ -11,14 +11,25 @@
 
 # Между элементами должен быть 1 пробел, в конце строки пробел не нужен.
 
-def print_operation_table(operation, num_rows = 9 , num_columns = 9):
-    if num_columns < 3:
+# первый вариант
+# def print_operation_table(operation, num_rows = 9 , num_columns = 9): 
+#     if num_columns < 3:
+#         print("ОШИБКА! Размерности таблицы должны быть больше 2!")
+#     else:
+#         for i in range(1, num_rows + 1):
+#             for j in range(1, num_columns + 1):
+#                 print(*list(map(operation, [i], [j])), end=' ')
+
+# второй вариант
+def print_operation_table(operation, num_rows = 9 , num_columns = 9): 
+    if num_rows < 2:
         print("ОШИБКА! Размерности таблицы должны быть больше 2!")
-    else:
-        for i in range(1, num_rows + 1):
-            for j in range(1, num_columns + 1):
-                print(*list(map(operation, [i], [j])), end="\t")
-            print()
+        return
+    for i in range(1, num_rows + 1):
+        answer = []
+        for j in range(1, num_columns + 1):
+            answer.append(str(operation(i, j)))
+        print(" ".join(answer))
 
                 
 print_operation_table(lambda x, y: x * y, 3, 3)
