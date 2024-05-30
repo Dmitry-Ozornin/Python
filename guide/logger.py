@@ -9,7 +9,7 @@ def input_data():
     phone = phone_data()
     address = address_data()
     with open('guide.csv', 'a', encoding='utf-8') as f:
-        f.write(f"\n{name};{surname};{phone};{address};\n")
+        f.write(f"\n{name};{surname};{phone};{address};")
 
 def print_data():
     print('вывожу данные из второго файла: \n')
@@ -34,7 +34,7 @@ def change_data():
                     print(line)
                     if input("Это значение? Да\Нет:\n") == "Да".casefold():
                         find_info2 = input("Введите точное значение, которое хотите изменит(ПРОВЕРЬТЕ ПЕРЕД ВВОДОМ):\n")
-                        list = (line.strip()).split(';')
+                        list = (line.strip()).split(";")
                         new_info = input("введите новое занчение:\n ")
                         i = 0
                         while i < len(list):
@@ -46,16 +46,16 @@ def change_data():
                                 buffer.writelines(f'{list[i]};') 
                                 i += 1
                     else:     
-                        buffer.write(f'\n{line}')
+                        buffer.writelines(f'{line}')
                 else:     
-                    buffer.write(f'\n{line}') 
+                    buffer.writelines(f'{line}') 
     
 def record_data():
-    with open('guide.csv', 'w', encoding='utf-8'):
+    with open('guide.csv', 'w', encoding='utf-8', newline=''):
         with open('buffer.csv', 'r', encoding='utf-8') as fm:
-            record = open('guide.csv', 'a', encoding='utf-8')
+            record = open('guide.csv', 'r+t', encoding='utf-8', newline='')
             for line in fm:
-                record.write(f'{line}')
+                record.writelines(f'{line}')
                 
                
 def delete_contact():
@@ -69,6 +69,6 @@ def delete_contact():
                     if input("Это значение? Да\Нет:\n") == "Да".casefold():
                         del line
                     else:     
-                        buffer.write(f'\n{line}')
+                        buffer.writelines(f'{line}')
                 else:     
-                    buffer.write(f'\n{line}') 
+                    buffer.writelines(f'{line}') 
