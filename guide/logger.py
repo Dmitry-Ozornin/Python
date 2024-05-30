@@ -58,5 +58,17 @@ def record_data():
                 record.write(f'{line}')
                 
                
-# def delete_contact():
-#     with open('buffer.csv', 'w', encoding='utf-8') as delete:
+def delete_contact():
+    with open('buffer.csv', 'w', encoding='utf-8') as delete:
+        find_info: str | None = find_name_file()
+        with open('guide.csv','rt', encoding='utf-8') as guide:
+            buffer = open('buffer.csv', 'a', encoding='utf-8')
+            for line in guide:
+                if find_info.casefold() in line:
+                    print(line)
+                    if input("Это значение? Да\Нет:\n") == "Да".casefold():
+                        del line
+                    else:     
+                        buffer.write(f'\n{line}')
+                else:     
+                    buffer.write(f'\n{line}') 
