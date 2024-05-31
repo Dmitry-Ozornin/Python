@@ -1,4 +1,4 @@
-from logger import input_data, print_data, find_data, change_data, record_data,delete_contact
+from logger import input_data, print_data, find_data, change_data, delete_contact
 
 def interface():
     print("Добрый день! Вы попали на специальный бот справочник от GeekBreans! \n 1- запись данных \n 2 - вывод данных \n 3  - изменить данные \n 4 - удалить данные\n5 - поиск данных")
@@ -15,11 +15,9 @@ def interface():
         print_data()
     elif command == 3:
         change_data()
-        record_data()
         print("Данные изменены!")
     elif command == 4:
         delete_contact()
-        record_data()
         print("Контакт удален!")
 
     else: 

@@ -1,5 +1,5 @@
 
-from io import TextIOWrapper
+import csv
 from data_create import name_data, surname_data,phone_data,address_data, find_name_file
 
 
@@ -8,11 +8,13 @@ def input_data():
     surname = surname_data()
     phone = phone_data()
     address = address_data()
-    with open('guide.csv', 'a', encoding='utf-8') as f:
-        f.write(f"\n{name};{surname};{phone};{address};")
+    with open('guide.csv', 'a+', encoding='utf-8', newline='') as f:
+        fieldnames = ['Имя', 'Фамилия','Телефон','Адрес']
+        input = csv.DictWriter(f, fieldnames=fieldnames)
+        input.writerow({'Имя':name, 'Фамилия':surname, 'Телефон':phone, 'Адрес':address})
 
 def print_data():
-    print('вывожу данные из второго файла: \n')
+    print('СПРАВОЧНИК')
     with open('guide.csv', 'r', encoding="utf-8") as f:
         for line in f:
             print(line.strip())
@@ -25,50 +27,45 @@ def find_data():
                 print(line)
 
 def change_data():
-    with open('buffer.csv', 'w', encoding='utf-8') as delete:
         find_info: str | None = find_name_file()
-        with open('guide.csv','rt', encoding='utf-8') as guide:
-            buffer = open('buffer.csv', 'a', encoding='utf-8')
-            for line in guide:
-                if find_info.casefold() in line:
+        with open('guide.csv', encoding='utf-8', newline='') as guide:
+            buffer = list(csv.DictReader(guide))
+            for line in buffer:
+                if find_info.casefold() in line['Имя'] or find_info.casefold() in line['Фамилия'] or find_info.casefold() in line['Телефон'] or find_info.casefold() in line['Адрес']:
                     print(line)
                     if input("Это значение? Да\Нет:\n") == "Да".casefold():
-                        find_info2 = input("Введите точное значение, которое хотите изменит(ПРОВЕРЬТЕ ПЕРЕД ВВОДОМ):\n")
-                        list = (line.strip()).split(";")
-                        new_info = input("введите новое занчение:\n ")
-                        i = 0
-                        while i < len(list):
-                            if find_info2.casefold() == list[i]:
-                                list[i] = new_info
-                                buffer.writelines(f'{list[i]};')
-                                i += 1
-                            else:
-                                buffer.writelines(f'{list[i]};') 
-                                i += 1
-                    else:     
-                        buffer.writelines(f'{line}')
-                else:     
-                    buffer.writelines(f'{line}') 
-    
-def record_data():
-    with open('guide.csv', 'w', encoding='utf-8', newline=''):
-        with open('buffer.csv', 'r', encoding='utf-8') as fm:
-            record = open('guide.csv', 'r+t', encoding='utf-8', newline='')
-            for line in fm:
-                record.writelines(f'{line}')
+                        what = input("Введите значениеbp из контакта, которое хотите поменять: ")
+                        if what.casefold() in line['Имя']:
+                            line['Имя'] = input("Введите новое значение: ")
+
+                        elif what.casefold() in line['Фамилия']:
+                            line['Фамилия'] = input("Введите новое значение: ")
+
+                        elif what.casefold() in line['Телефон']:
+                            line['Телефон'] = input("Введите новое значение: ")
+
+                        elif what.casefold() in line['Адрес']:
+                            line['Адрес'] = input("Введите новое значение: ")
+
+        with open('guide.csv', 'w', encoding='utf-8', newline='')as f:
+            fieldnames = ['Имя', 'Фамилия','Телефон','Адрес']
+            write = csv.DictWriter(f, fieldnames=fieldnames)
+            write.writeheader()
+            write.writerows(buffer)
                 
                
 def delete_contact():
-    with open('buffer.csv', 'w', encoding='utf-8') as delete:
-        find_info: str | None = find_name_file()
-        with open('guide.csv','rt', encoding='utf-8') as guide:
-            buffer = open('buffer.csv', 'a', encoding='utf-8')
-            for line in guide:
-                if find_info.casefold() in line:
-                    print(line)
-                    if input("Это значение? Да\Нет:\n") == "Да".casefold():
-                        del line
-                    else:     
-                        buffer.writelines(f'{line}')
-                else:     
-                    buffer.writelines(f'{line}') 
+    find_info: str | None = find_name_file()
+    with open('guide.csv', encoding='utf-8', newline='') as guide:
+        buffer = list(csv.DictReader(guide))
+        for line in buffer:
+            if find_info.casefold() in line['Имя'] or find_info.casefold() in line['Фамилия'] or find_info.casefold() in line['Телефон'] or find_info.casefold() in line['Адрес']:
+                print(line)
+                if input("Это значение? Да\Нет:\n") == "Да".casefold():
+                    buffer.remove(line)
+                       
+    with open('guide.csv', 'w', encoding='utf-8', newline='')as f:
+        fieldnames = ['Имя', 'Фамилия','Телефон','Адрес']
+        write = csv.DictWriter(f, fieldnames=fieldnames)
+        write.writeheader()
+        write.writerows(buffer)
