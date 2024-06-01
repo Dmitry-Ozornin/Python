@@ -20,10 +20,11 @@ def print_data():
             print(line.strip())
 
 def find_data():
-    find_file = find_name_file()
-    with open('guide.csv', 'r', encoding="utf-8") as f:
-        for line in f:
-            if find_file.casefold() in line:
+    find_info: str | None = find_name_file()
+    with open('guide.csv','r', encoding='utf-8', newline='') as guide:
+        buffer = list(csv.DictReader(guide))
+        for line in buffer:
+            if find_info.casefold() in line['Имя'] or find_info.casefold() in line['Фамилия'] or find_info.casefold() in line['Телефон'] or find_info.casefold() in line['Адрес']:
                 print(line)
 
 def change_data():
@@ -69,3 +70,27 @@ def delete_contact():
         write = csv.DictWriter(f, fieldnames=fieldnames)
         write.writeheader()
         write.writerows(buffer)
+
+def transfer_info():
+    info_need = int(input("Введите строку которую хотите перенести: ")) - 1
+    with open('guide.csv', 'r+', encoding='utf-8', newline='') as guide:
+        buffer = list(csv.DictReader(guide))
+        i = 0
+        while i < len(buffer):
+            if i == info_need:
+                info_need = buffer[i]
+
+                print(buffer, end='')
+                i += 1
+            else:
+                i += 1
+    with open('guide.csv', 'w', encoding='utf-8', newline='') as f:
+        fieldnames = ['Имя', 'Фамилия','Телефон','Адрес']
+        write = csv.DictWriter(f, fieldnames=fieldnames)
+        write.writeheader()
+        write.writerows(buffer)
+    with open('guide2.csv', 'a+', encoding='utf-8', newline='') as fd:
+        fieldnames = ['Имя', 'Фамилия','Телефон','Адрес']
+        writer = csv.DictWriter(fd, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerow(info_need)
