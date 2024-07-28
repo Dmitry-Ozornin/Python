@@ -1,0 +1,15 @@
+AlternetingChars.java
+contentFolder.txt
+FileList.txt
+FileWork.java
+FileWrite.java
+FormatPrivet.java
+helloDateTume.java
+log.txt
+log.txt.lck
+LongSting.java
+palindrome.java
+Program.java
+ReversVal.java
+text.txt
+СompressString.java

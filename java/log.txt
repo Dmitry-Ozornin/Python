@@ -1,0 +1,4 @@
+июл. 09, 2024 8:18:40 PM FileWork writeArrayToFile
+INFO: Данные успешно записаны.
+июл. 09, 2024 8:18:55 PM FileWork writeArrayToFile
+INFO: Данные успешно записаны.
